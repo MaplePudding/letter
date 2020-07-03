@@ -87,37 +87,44 @@
 
 	.login {
 		text-align: center;
-		margin-top: 80px;
+		margin-top: 160rpx;
 		font-size: 2em;
 	}
 
 
 
 	button {
-		margin-top: 40px;
+		margin-top: 80rpx;
 	}
 	
 	.name{
-		height: 95px;
+		height: 190rpx;
+		margin-bottom: 90rpx;
+		margin-top: 50rpx;
 	}
 
 	.form {
 		width: 90%;
 		display: flex;
+		margin: 60rpx auto;
 		flex-direction: column;
-		margin-top: 30px;
+		margin-top: 60rpx;
 		justify-content: center;
 		align-items: center;
 	}
 	
 	.password{
-		height: 60px;
+		margin-bottom: 30px;
 	}
 
 	.form image {
 		display: inline-flex;
-		width: 20px;
-		height: 20px;
+		width: 40rpx;
+		height: 40rpx;
+	}
+	
+	button{
+		margin-top: 120rpx;
 	}
 
 
@@ -125,15 +132,16 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		justify-content: center;
-		margin-top: 15px;
+		justify-content:center;
 		color: #8F8F94;
-		padding-bottom: 4px;
-		border-bottom: 1px solid #8F8F94;
+		margin-top: 40rpx;
+		padding-bottom: 8rpx;
+		border-bottom: 2rpx solid #8F8F94;
 	}
 
 	.signup image {
-		margin-right: 5px;
+		margin-right: 10rpx;
+		margin-top: 10rpx;
 		align-self: baseline;
 	}
 </style>

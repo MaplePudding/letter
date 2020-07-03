@@ -5,7 +5,7 @@
 
 input {
 	font-size: 1.5em;
-	border-bottom: 1px solid #8F8F94;
+	border-bottom: 2rpx solid #8F8F94;
 }
 
 .tips {
@@ -14,5 +14,19 @@ input {
 }
 
 button{
-	width: 83%;
+	width: 90%;
+}
+
+.item image{
+	width: 120rpx;
+	height: 120rpx;
+	margin-left: 6rpx;
+	border-radius: 50%;
+}
+
+.item{
+	height: 130rpx;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }

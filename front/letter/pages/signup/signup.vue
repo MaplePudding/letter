@@ -106,36 +106,38 @@
 <style>
 	@import url("../../static/common/css/common.css");
 	image{
-		width: 25px;
-		height: 25px;
-		margin-top: 10px;
-		margin-left: 5px;
+		width: 50rpx;
+		height: 50rpx;
+		margin-top: 20rpx;
+		margin-left: 10rpx;
 	}
 	
 	#signup{
-		margin-top: 45px;
+		margin-top: 90rpx;
 		font-size: 2em;
 		text-align: center;
 	}
 	
 	.form{
-		width: 90%;
-		margin: 20px auto;
 		display: flex;
+		width: 90%;
+		margin: 40rpx auto;
 		flex-direction: column;
-		align-items: baseline;
+		align-items: center;
 		justify-content: center;
 	}
 	
 	.name{
-		height: 85px;
+		height: 170rpx;
 	}
 	
 	.password{
-		height: 85px;
+		height: 170rpx;
 	}
 	
 	.email{
-		height: 85px;
+		height: 170rpx;
+		margin-bottom: 80rpx;
+		margin-top: 50rpx;
 	}
 </style>
