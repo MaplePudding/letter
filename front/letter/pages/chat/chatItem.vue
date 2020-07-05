@@ -38,8 +38,8 @@
 
 <style>
 	image {
-		width: 130rpx;
-		height: 130rpx;
+		width: 110rpx;
+		height: 110rpx;
 	}
 
 	.msg {
@@ -50,6 +50,7 @@
 		width: 100%;
 		min-height: 160rpx;
 		display: relative;
+		margin-top: 20rpx;
 	}
 
 	.img_user_1 {

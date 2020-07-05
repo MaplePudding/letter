@@ -85,8 +85,8 @@
 	@import url("../../static/common/css/common.css");
 
 	.photo {
-		width: 120rpx;
-		height: 120rpx;
+		width: 100rpx;
+		height: 100rpx;
 	}
 
 	.logout {
@@ -124,13 +124,13 @@
 	}
 
 	.friends {
-		width: 75rpx;
-		height: 75rpx;
+		width: 130rpx;
+		height: 130rpx;
 	}
 
 	.group {
-		width: 110rpx;
-		height: 110rpx;
+		width: 95rpx;
+		height: 95rpx;
 	}
 
 	.content {
