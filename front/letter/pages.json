@@ -19,7 +19,13 @@
 				"navigationStyle":"custom"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/chat/chat",
+            "style" : {
+				"navigationStyle":"custom"
+			}
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

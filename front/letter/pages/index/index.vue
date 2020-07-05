@@ -8,7 +8,7 @@
 			<image src="../../static/index/logout.png" class="logout" v-on:click="logout"></image>
 		</view>
 		<scroll-view>
-			<view class="item">
+			<view class="item" v-on:click="toChatPage">
 				<image src="../../static/logo.png"></image>
 				<view class="content">
 					<view class="itemName">letter</view>
@@ -35,73 +35,83 @@
 
 		},
 		methods: {
-			
+
 			/**
 			 * Logout
 			 * */
-			 
-			logout: function(){
-				
+
+			logout: function() {
+
 			},
-			
+
 			/**
 			 * Search users
 			 * */
-			
-			search: function(){
-				
+
+			search: function() {
+
 			},
-			
+
 			/**
 			 * Switch to friends page
 			 * */
-			 
-			 switchToFriends: function(){
-				 
-			 },
-			 
-			 /**
-			  * Switch to friends page
-			  * */
-			  
-			 switchToGroup: function(){
-				 
-			 }
+
+			switchToFriends: function() {
+
+			},
+
+			/**
+			 * Switch to friends page
+			 * */
+
+			switchToGroup: function() {
+
+			},
+
+			/**
+			 * Navigate to chat page
+			 * */
+
+			toChatPage: function() {
+				uni.navigateTo({
+					url: '../chat/chat'
+				})
+			}
 		}
 	}
 </script>
 
 <style>
 	@import url("../../static/common/css/common.css");
-	
-	.photo{
+
+	.photo {
 		width: 120rpx;
 		height: 120rpx;
 	}
-	
-	.logout{
+
+	.logout {
 		width: 80rpx;
 		height: 80rpx;
 		margin-top: 16rpx;
 		margin-right: 10rpx;
 	}
-	
-	.topBar{
+
+	.topBar {
 		display: flex;
 		width: 100%;
 		flex-direction: row;
 		justify-content: space-between;
 		border-bottom: 4rpx solid #bfbfbf;
 	}
-	
-	.search{
+
+	.search {
 		width: 90rpx;
 		height: 90rpx;
 		margin-top: 14rpx;
 		margin-left: 400rpx;
 	}
-	
-	.toolBar{
+
+	.toolBar {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-around;
@@ -112,39 +122,38 @@
 		border-top: 2rpx solid #8F8F94;
 		width: 100%;
 	}
-	
-	.friends{
+
+	.friends {
 		width: 75rpx;
 		height: 75rpx;
 	}
-	
-	.group{
+
+	.group {
 		width: 110rpx;
 		height: 110rpx;
 	}
-	
-	.content{
+
+	.content {
 		display: flex;
 		flex-direction: column;
 		margin-left: 16rpx;
 		width: 320rpx;
 		overflow: hidden;
 	}
-	
-	.itemName{
+
+	.itemName {
 		font-size: 1.2em;
 	}
-	
-	.itemMsg{
+
+	.itemMsg {
 		width: 180rpx;
 		font-size: 0.8em;
 		color: #8F8F94
 	}
-	
-	.date{
+
+	.date {
 		font-size: 0.9em;
 		color: #BFBFBF;
 		margin-left: 20rpx;
 	}
-
 </style>

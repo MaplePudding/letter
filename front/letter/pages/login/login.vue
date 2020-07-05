@@ -8,11 +8,11 @@
 		</view>
 		<view class="form">
 			<view class="name">
-				<input placeholder="name" v-model="name"/>
+				<input placeholder="name" v-model="name" />
 				<view class="tips" v-show="checkName">please enter name</view>
 			</view>
 			<view class="password">
-				<input placeholder="password" type="password" v-model="password"/>
+				<input placeholder="password" type="password" v-model="password" />
 				<view class="tips" v-show="checkPwd">please enter password</view>
 				<view class="tips" v-if="false">password or name error</view>
 			</view>
@@ -33,47 +33,47 @@
 			}
 		},
 		methods: {
-			
+
 			/**
 			 * redirect to signup.vue
 			 * */
-			 
+
 			toSignUp: function() {
 				uni.navigateTo({
 					url: '../signup/signup',
 				})
 			}
 		},
-		computed:{
-			
+		computed: {
+
 			/**
 			 * Checks if name is ''
 			 * */
-			 
-			checkName: function(){
-				if(this.name == ''){
+
+			checkName: function() {
+				if (this.name == '') {
 					return true;
 				}
 				return false;
 			},
-			
+
 			/**
 			 * Checks if password is ''
 			 * */
-			 
-			checkPwd: function(){
-				if(this.password == ''){
+
+			checkPwd: function() {
+				if (this.password == '') {
 					return true;
 				}
 				return false;
 			},
-			
+
 			/**
 			 * button -> disabled
 			 * */
-			
-			checkButton: function(){
-				if(this.name == '' || this.password == ''){
+
+			checkButton: function() {
+				if (this.name == '' || this.password == '') {
 					return true;
 				}
 				return false;
@@ -96,8 +96,8 @@
 	button {
 		margin-top: 80rpx;
 	}
-	
-	.name{
+
+	.name {
 		height: 190rpx;
 		margin-bottom: 90rpx;
 		margin-top: 50rpx;
@@ -112,8 +112,8 @@
 		justify-content: center;
 		align-items: center;
 	}
-	
-	.password{
+
+	.password {
 		margin-bottom: 30px;
 	}
 
@@ -122,8 +122,8 @@
 		width: 40rpx;
 		height: 40rpx;
 	}
-	
-	button{
+
+	button {
 		margin-top: 120rpx;
 	}
 
@@ -132,7 +132,7 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		justify-content:center;
+		justify-content: center;
 		color: #8F8F94;
 		margin-top: 40rpx;
 		padding-bottom: 8rpx;
