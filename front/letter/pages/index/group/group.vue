@@ -3,23 +3,23 @@
 		<view id="top">
 		</view>
 		<view class="topBar">
-			<image src="../../static/index/photo.png" class="photo"></image>
-			<image src="../../static/index/search.png" class="search" v-on:click="search"></image>
-			<image src="../../static/index/logout.png" class="logout" v-on:click="logout"></image>
+			<image src="../../../static/index/photo.png" class="photo"></image>
+			<image src="../../../static/index/search.png" class="search" v-on:click="search"></image>
+			<image src="../../../static/index/logout.png" class="logout" v-on:click="logout"></image>
 		</view>
 		<scroll-view>
 			<view class="item" v-on:click="toChatPage">
-				<image src="../../static/logo.png"></image>
+				<image src="../../../static/logo.png"></image>
 				<view class="content">
-					<view class="itemName">letter</view>
+					<view class="itemName">group</view>
 					<view class="itemMsg">helloworld</view>
 				</view>
 				<view class="date">2019-11-1</view>
 			</view>
 		</scroll-view>
 		<view class="toolBar">
-			<image src="../../static/index/friends.png" class="friends" v-on:click="switchToFriends"></image>
-			<image src="../../static/index/group.png" class="group" v-on:click="switchToGroup"></image>
+			<image src="../../../static/index/friends.png" class="friends" v-on:click="switchToFriends"></image>
+				<image src="../../../static/index/group.png" class="group" v-on:click="switchToGroup"></image>
 		</view>
 	</view>
 </template>
@@ -58,7 +58,9 @@
 			 * */
 
 			switchToFriends: function() {
-
+				uni.navigateTo({
+					url: '../index'
+				})
 			},
 
 			/**
@@ -66,9 +68,7 @@
 			 * */
 
 			switchToGroup: function() {
-				uni.navigateTo({
-					url: './group/group'
-				})
+
 			},
 
 			/**
@@ -77,7 +77,7 @@
 
 			toChatPage: function() {
 				uni.navigateTo({
-					url: '../chat/chat'
+					url: '../../chat/chat'
 				})
 			}
 		}
@@ -85,7 +85,7 @@
 </script>
 
 <style>
-	@import url("../../static/common/css/common.css");
+	@import url("../../../static/common/css/common.css");
 
 	.photo {
 		width: 100rpx;
