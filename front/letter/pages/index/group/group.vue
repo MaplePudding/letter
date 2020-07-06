@@ -46,11 +46,13 @@
 			},
 
 			/**
-			 * Search users
+			 * Navigate to search page
 			 * */
 
 			search: function() {
-
+				uni.navigateTo({
+					url: '../../search/search'
+				})
 			},
 
 			/**

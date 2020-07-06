@@ -95,6 +95,7 @@
 
 	button {
 		margin-top: 80rpx;
+		width: 90%;
 	}
 
 	.name {
@@ -143,5 +144,10 @@
 		margin-right: 10rpx;
 		margin-top: 10rpx;
 		align-self: baseline;
+	}
+	
+	.tips {
+		font-size: 0.85em;
+		color: red;
 	}
 </style>

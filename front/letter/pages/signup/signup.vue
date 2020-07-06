@@ -141,4 +141,13 @@
 		margin-bottom: 80rpx;
 		margin-top: 50rpx;
 	}
+	
+	button{
+		width: 90%;
+	}
+	
+	.tips {
+		font-size: 0.85em;
+		color: red;
+	}
 </style>

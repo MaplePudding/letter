@@ -8,19 +8,10 @@ input {
 	border-bottom: 2rpx solid #8F8F94;
 }
 
-.tips {
-	font-size: 0.85em;
-	color: red;
-}
-
-button{
-	width: 90%;
-}
-
 .item image{
 	width: 120rpx;
 	height: 120rpx;
-	margin-left: 6rpx;
+	margin-left: 20rpx;
 	border-radius: 50%;
 }
 

@@ -108,6 +108,11 @@
 		justify-content: space-between;
 		border-bottom: 4rpx solid #bfbfbf;
 	}
+	
+	.tips {
+		font-size: 0.85em;
+		color: red;
+	}
 
 	.search {
 		width: 90rpx;
