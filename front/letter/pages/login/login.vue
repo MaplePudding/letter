@@ -6,21 +6,21 @@
 		<view class="login">
 			Login
 		</view>
-		<view class="form">
+		<form class="form" v-on:submit="formSubmit">
 			<view class="name">
-				<input placeholder="name" v-model="name" />
+				<input placeholder="name" v-model="name" name="name" />
 				<view class="tips" v-show="checkName">please enter name</view>
 			</view>
 			<view class="password">
-				<input placeholder="password" type="password" v-model="password" />
+				<input placeholder="password" type="password" v-model="password" name="password" />
 				<view class="tips" v-show="checkPwd">please enter password</view>
-				<view class="tips" v-if="false">password or name error</view>
+				<view class="tips" v-if="loginFlag">password or name error</view>
 			</view>
-			<button v-bind:disabled="checkButton">login</button>
+			<button v-bind:disabled="checkButton" form-type="submit">login</button>
 			<view class="signup" v-on:click="toSignUp">
 				<image src="../../static/login/sign-up.png"></image>sign-up
 			</view>
-		</view>
+		</form>
 	</view>
 </template>
 
@@ -29,7 +29,8 @@
 		data() {
 			return {
 				name: '',
-				password: ''
+				password: '',
+				loginFlag: false
 			}
 		},
 		methods: {
@@ -42,6 +43,28 @@
 				uni.navigateTo({
 					url: '../signup/signup',
 				})
+			},
+
+			/**
+			 * Form submit
+			 * */
+
+			formSubmit: function(e) {
+				var formDate = e.detail.value;
+				uni.request({
+					url: 'http://127.0.0.1:3000/login',
+					method: 'POST',
+					data: {
+						loginMsg: formDate
+					},
+
+					success: (res) => {
+						console.log(res.data);
+						if(res.data="Login Error"){
+							this.loginFlag = true;
+						}
+					}
+				});
 			}
 		},
 		computed: {
@@ -126,10 +149,12 @@
 
 	button {
 		margin-top: 120rpx;
+		width: 100%;
 	}
 
 
 	.signup {
+
 		display: flex;
 		flex-direction: row;
 		align-items: center;
@@ -137,7 +162,6 @@
 		color: #8F8F94;
 		margin-top: 40rpx;
 		padding-bottom: 8rpx;
-		border-bottom: 2rpx solid #8F8F94;
 	}
 
 	.signup image {
@@ -145,7 +169,7 @@
 		margin-top: 10rpx;
 		align-self: baseline;
 	}
-	
+
 	.tips {
 		font-size: 0.85em;
 		color: red;
