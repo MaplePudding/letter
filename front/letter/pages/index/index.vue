@@ -2,10 +2,19 @@
 	<view>
 		<view id="top">
 		</view>
+		<view id="logoutView" v-if="logoutFlag">
+			<view class="logoutText">
+				Logout?
+			</view>
+			<view class="logoutButtons">
+				<button v-on:click="logout">Yes</button>
+				<button v-on:click="cancel">No</button>
+			</view>
+		</view>
 		<view class="topBar">
 			<image src="../../static/index/photo.png" class="photo"></image>
 			<image src="../../static/index/search.png" class="search" v-on:click="search"></image>
-			<image src="../../static/index/logout.png" class="logout" v-on:click="logout"></image>
+			<image src="../../static/index/logout.png" class="logout" v-on:click="showLogoutPage"></image>
 		</view>
 		<scroll-view>
 			<view class="item" v-on:click="toChatPage(item.content)" v-for="item in arrOfFriends">
@@ -30,7 +39,8 @@
 			return {
 				title: 'Hello',
 				arrOfFriends: [],
-				userName: ''
+				userName: '',
+				logoutFlag: false
 			}
 		},
 
@@ -44,16 +54,36 @@
 			this.arrOfFriends = arr;
 			this.userName = obj.name;
 		},
-		
+
 		methods: {
 
 			/**
-			 * Logout
+			 * Show logout page
 			 * */
 
-			logout: function() {
-
+			showLogoutPage: function() {
+				this.logoutFlag = true;
 			},
+			
+			/**
+			 * Log out
+			 * */
+			 
+			logout: function(){
+				uni.reLaunch({
+					url: '../login/login'
+				})
+			},
+			
+			/**
+			 * Cancel logout
+			 * */
+			 
+			cancel: function(){
+				this.logoutFlag = false;
+			},
+			
+			
 
 			/**
 			 * Navigate to search page
@@ -88,7 +118,7 @@
 			 * */
 
 			toChatPage: function(content) {
-				
+
 				var temp = {
 					content: content
 				}
@@ -175,5 +205,36 @@
 		font-size: 0.9em;
 		color: #BFBFBF;
 		margin-left: 20rpx;
+	}
+
+	#logoutView {
+		position: absolute;
+		left: 0;
+		top: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+		height: 100vh;
+		opacity: 0.5;
+		background: white;
+		z-index: 10;
+	}
+	
+	#logoutView .logoutText{
+		color: black;
+		font-size: 1.5em;
+		margin-top: 280rpx;;
+	}
+	
+	#logoutView .logoutButtons{
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		margin-top: 100rpx;
+	}
+	
+	#logoutView .logoutButtons button{
+		width: 200rpx;
 	}
 </style>

@@ -64,7 +64,6 @@
 						}
 						else{
 							var array = JSON.stringify({target:res.data[0].friends});
-							console.log(res.data[0].name)
 							uni.navigateTo({
 								url: '../index/index?arr=' + array + '&name=' + res.data[0].name
 							})
