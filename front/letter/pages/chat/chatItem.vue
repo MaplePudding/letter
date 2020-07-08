@@ -3,7 +3,7 @@
 		<view class="msg">
 			<image src="../../static/chat/photo.png" v-bind:class="{img_user_1: userFlag, img_user_2: !userFlag}"></image>
 			<view v-bind:class="{msg_user_1: userFlag, msg_user_2: !userFlag}">
-				ffffffffffffffffffffffffffffffffffffffff
+				{{item.msg}}
 			</view>
 		</view>
 	</view>
@@ -18,7 +18,8 @@
 		},
 
 		props: [
-			'item'
+			'item',
+			'name'
 		],
 
 		/**
@@ -26,7 +27,7 @@
 		 * */
 
 		mounted: function() {
-			if (this.item.user == 'user_1') {
+			if (this.item.user == this.name) {
 				this.userFlag = true;
 			} else {
 				this.userFlag = false;

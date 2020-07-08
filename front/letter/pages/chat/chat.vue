@@ -10,7 +10,7 @@
 			<view class="delete" v-if="flag" v-on:click="del">Delete</view>
 		</view>
 		<scroll-view>
-			<chat-item v-for="item in message" v-bind:key="item.key" v-bind:item="item"></chat-item>
+			<chat-item v-for="item in message" v-bind:key="item.key" v-bind:item="item" v-bind:name="userName"></chat-item>
 		</scroll-view>
 		<view class="input">
 			<input type="text" />
@@ -36,8 +36,16 @@
 					}
 				],
 				userFLag: true,
+				userName: ''
 			}
 		},
+		
+		onLoad(obj){
+			var temp = JSON.parse(obj.content)["content"];
+			this.message = temp;
+			this.userName = obj.name;
+		},
+		
 		methods: {
 
 			/**

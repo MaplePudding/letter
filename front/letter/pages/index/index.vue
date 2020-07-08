@@ -8,11 +8,11 @@
 			<image src="../../static/index/logout.png" class="logout" v-on:click="logout"></image>
 		</view>
 		<scroll-view>
-			<view class="item" v-on:click="toChatPage">
+			<view class="item" v-on:click="toChatPage(item.content)" v-for="item in arrOfFriends">
 				<image src="../../static/logo.png"></image>
 				<view class="content">
-					<view class="itemName">letter</view>
-					<view class="itemMsg">helloworld</view>
+					<view class="itemName">{{item.name}}</view>
+					<view class="itemMsg">{{item.content[item.content.length - 1].msg}}</view>
 				</view>
 				<view class="date">2019-11-1</view>
 			</view>
@@ -25,16 +25,26 @@
 </template>
 
 <script>
-
 	export default {
 		data() {
 			return {
-				title: 'Hello'
+				title: 'Hello',
+				arrOfFriends: [],
+				userName: ''
 			}
 		},
-		onLoad() {
 
+		onLoad(obj) {
+
+			/**
+			 * Get parameters
+			 * */
+
+			var arr = JSON.parse(obj.arr)["target"];
+			this.arrOfFriends = arr;
+			this.userName = obj.name;
 		},
+		
 		methods: {
 
 			/**
@@ -77,9 +87,14 @@
 			 * Navigate to chat page
 			 * */
 
-			toChatPage: function() {
+			toChatPage: function(content) {
+				
+				var temp = {
+					content: content
+				}
+				var str = JSON.stringify(temp);
 				uni.navigateTo({
-					url: '../chat/chat'
+					url: '../chat/chat?content=' + str + '&name=' + this.userName
 				})
 			}
 		}
@@ -151,7 +166,7 @@
 	}
 
 	.itemMsg {
-		width: 180rpx;
+		width: 240rpx;
 		font-size: 0.8em;
 		color: #8F8F94
 	}
