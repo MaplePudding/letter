@@ -15,4 +15,22 @@ var infoDetect = function (name, password, response) {
     });
 }
 
+/**
+ * Get search list
+ */
+
+var getSearchList = function(searchData, userName, friendList, response){
+    mongodb.userSchema.find(function(err, data){
+        var arr = []
+        for(el in data){
+            if(data[el].name.toLowerCase().indexOf(searchData.toLowerCase()) != -1 && friendList.indexOf(data[el].name) == -1 && data[el].name != userName){
+                arr.push(data[el]);
+            }
+        }
+        response.send(arr);
+    });
+}
+
+
 exports.infoDetect = infoDetect;
+exports.getSearchList = getSearchList;

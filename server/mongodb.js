@@ -8,35 +8,7 @@ var userSchema = mongoose.Schema({
     friends: { type: Array }
 });
 
-var temp = {
-    friends: [
-        {
-            name: "admin2",
-            content:[
-                {
-                    msg: "hello admin2",
-                    user: "admin1"
-                },
-                {
-                    msg: "hello admin1",
-                    user: "admin2"
-                }
-            ]
-        }
-    ]
-}
-
-
 var userSchema = mongoose.model('user', userSchema);
-userSchema.update({name: "admin1"}, {friends: temp.friends}, function(err, data){
-
-})
-
-
-
-
-
-
 
 exports.userSchema = userSchema;
 

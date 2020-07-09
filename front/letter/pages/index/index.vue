@@ -50,8 +50,8 @@
 			 * Get parameters
 			 * */
 
-			var arr = JSON.parse(obj.arr)["target"];
-			this.arrOfFriends = arr;
+			this.arrOfFriends = JSON.parse(obj.arr)["target"];
+
 			this.userName = obj.name;
 		},
 
@@ -64,34 +64,44 @@
 			showLogoutPage: function() {
 				this.logoutFlag = true;
 			},
-			
+
 			/**
 			 * Log out
 			 * */
-			 
-			logout: function(){
+
+			logout: function() {
 				uni.reLaunch({
 					url: '../login/login'
 				})
 			},
-			
+
 			/**
 			 * Cancel logout
 			 * */
-			 
-			cancel: function(){
+
+			cancel: function() {
 				this.logoutFlag = false;
 			},
-			
-			
+
+
 
 			/**
 			 * Navigate to search page
 			 * */
 
 			search: function() {
+
+				/**
+				 * Get all friends and pass to search page
+				 * */
+
+				var arr = [];
+				for(var el = 0; el < this.arrOfFriends.length; ++el){
+					arr.push(this.arrOfFriends[el]["name"]);
+				}
+	
 				uni.navigateTo({
-					url: '../search/search'
+					url: '../search/search?name=' + this.userName + '&arr=' + JSON.stringify({arr: arr})
 				})
 			},
 
@@ -118,7 +128,6 @@
 			 * */
 
 			toChatPage: function(content) {
-
 				var temp = {
 					content: content
 				}
@@ -220,21 +229,22 @@
 		background: white;
 		z-index: 10;
 	}
-	
-	#logoutView .logoutText{
+
+	#logoutView .logoutText {
 		color: black;
 		font-size: 1.5em;
-		margin-top: 280rpx;;
+		margin-top: 280rpx;
+		;
 	}
-	
-	#logoutView .logoutButtons{
+
+	#logoutView .logoutButtons {
 		width: 100%;
 		display: flex;
 		flex-direction: row;
 		margin-top: 100rpx;
 	}
-	
-	#logoutView .logoutButtons button{
+
+	#logoutView .logoutButtons button {
 		width: 200rpx;
 	}
 </style>

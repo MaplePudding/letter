@@ -10,16 +10,18 @@ var dbOperation = require('./dbOperation.js');
 router.post('/login', function (request, response) {
     var name = request.body.loginMsg.name;
     var password = request.body.loginMsg.password;
-
-    /**
-    * Detect login information
-    */
-
     dbOperation.infoDetect(name, password, response);
 })
 
-router.get('/', function () {
+/**
+ * Returns an array of users who can add friends
+ */
 
+router.get('/search', function (request, response) {
+    var searchData = request.query.text;
+    var userName = request.query.name;
+    var friendList = JSON.parse(request.query.friendList).friendList;
+    dbOperation.getSearchList(searchData, userName, friendList, response);
 })
 
 router.get('/', function () {
