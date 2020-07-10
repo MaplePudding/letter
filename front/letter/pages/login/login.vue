@@ -33,6 +33,12 @@
 				loginFlag: false
 			}
 		},
+		
+		onLoad(obj){
+			this.name = obj.name;
+			this.password = obj.password;
+		},
+		
 		methods: {
 
 			/**
@@ -59,11 +65,12 @@
 					},
 
 					success: (res) => {
-						if(res.data == "Login Error"){
+						if (res.data == "Login Error") {
 							this.loginFlag = true;
-						}
-						else{
-							var array = JSON.stringify({target:res.data[0].friends});
+						} else {
+							var array = JSON.stringify({
+								target: res.data[0].friends
+							});
 							uni.navigateTo({
 								url: '../index/index?arr=' + array + '&name=' + res.data[0].name
 							})

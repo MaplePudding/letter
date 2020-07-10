@@ -3,11 +3,11 @@
 		<view id="top"></view>
 		<image src="../../static/signup/back.png" v-on:click="back"></image>
 		<view id="signup">Sign Up</view>
-		<view class="form">
+		<form class="form" v-on:submit="formSubmit">
 			<view class="name">
 				<input placeholder="name" v-model="name" />
 				<view class="tips" v-if="checkName">Username can not be empty</view>
-				<view class="tips" v-if="false">Username already exists</view>
+				<view class="tips" v-if="exists">Username already exists</view>
 			</view>
 			<view class="email">
 				<input placeholder="email" v-model="email" />
@@ -18,8 +18,8 @@
 				<input type="password" placeholder="password" v-model="password" />
 				<view class="tips" v-if="checkPwd">password can not be empty</view>
 			</view>
-			<button v-bind:disabled="checkButton || flag">Sign up</button>
-		</view>
+			<button v-bind:disabled="checkButton || flag" form-type="submit">Sign up</button>
+		</form>
 	</view>
 </template>
 
@@ -30,7 +30,8 @@
 				name: '',
 				password: '',
 				email: '',
-				flag: true
+				flag: true,
+				exists: false
 			}
 		},
 		methods: {
@@ -42,6 +43,31 @@
 			back: function() {
 				uni.navigateBack({
 
+				})
+			},
+
+			/**
+			 * Send registration information to the server
+			 * */
+
+			formSubmit: function() {
+				uni.request({
+					url: 'http://127.0.0.1:3000/signup',
+					data: {
+						name: this.name,
+						email: this.email,
+						password: this.password
+					},
+					method: 'POST',
+					success: (res) => {
+						if (res.data == 'exists') {
+							this.exists = true;
+						} else {
+							uni.reLaunch({
+								url: '../login/login?name=' + this.name + '&password=' + this.password
+							})
+						}
+					}
 				})
 			}
 		},
@@ -141,11 +167,11 @@
 		margin-bottom: 80rpx;
 		margin-top: 50rpx;
 	}
-	
-	button{
+
+	button {
 		width: 90%;
 	}
-	
+
 	.tips {
 		font-size: 0.85em;
 		color: red;

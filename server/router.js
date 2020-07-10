@@ -24,8 +24,12 @@ router.get('/search', function (request, response) {
     dbOperation.getSearchList(searchData, userName, friendList, response);
 })
 
-router.get('/', function () {
+/**
+ * Handling registration requests
+ */
 
+router.post('/signup', function (request, response) {
+    dbOperation.checkUsername(request.body.name, request.body.password, request.body.email, response);
 })
 
 router.get('/', function () {

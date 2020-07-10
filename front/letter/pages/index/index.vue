@@ -51,7 +51,6 @@
 			 * */
 
 			this.arrOfFriends = JSON.parse(obj.arr)["target"];
-
 			this.userName = obj.name;
 		},
 
@@ -96,12 +95,14 @@
 				 * */
 
 				var arr = [];
-				for(var el = 0; el < this.arrOfFriends.length; ++el){
+				for (var el = 0; el < this.arrOfFriends.length; ++el) {
 					arr.push(this.arrOfFriends[el]["name"]);
 				}
-	
+
 				uni.navigateTo({
-					url: '../search/search?name=' + this.userName + '&arr=' + JSON.stringify({arr: arr})
+					url: '../search/search?name=' + this.userName + '&arr=' + JSON.stringify({
+						arr: arr
+					})
 				})
 			},
 

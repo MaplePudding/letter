@@ -39,13 +39,13 @@
 				userName: ''
 			}
 		},
-		
-		onLoad(obj){
+
+		onLoad(obj) {
 			var temp = JSON.parse(obj.content)["content"];
 			this.message = temp;
 			this.userName = obj.name;
 		},
-		
+
 		methods: {
 
 			/**
