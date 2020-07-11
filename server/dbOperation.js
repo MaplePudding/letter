@@ -1,5 +1,6 @@
 var mongodb = require('./mongodb.js');
 const { response } = require('express');
+const { mongo } = require('mongoose');
 
 /**
 * Detect login information
@@ -66,7 +67,8 @@ var writeUserInfo = function(name, password, email, response){
     var metaData = {
         name: name,
         password: password,
-        email: email
+        email: email,
+        friends: []
     }
     mongodb.userSchema.create(metaData, function(error, data){
         response.send('Registration is complete')
@@ -74,9 +76,45 @@ var writeUserInfo = function(name, password, email, response){
 }
 
 
+/**
+ * Add friend
+ */
+
+var addFriend = function(name, userName, friendsList, response){
+
+    friendsList.push({'content':[{'msg': '', 'user':''}], 'name': name});
+
+    /**
+     * Write user information into friend data
+     */
+
+    mongodb.userSchema.find({name: name}, function(error, data){
+        var OthFriendsList = data[0].friends;
+        OthFriendsList.push({'content': [{'msg':'', 'user':''}], 'name':userName})
+        mongodb.userSchema.update({name: name}, {friends: OthFriendsList}, function(err, data){
+
+        })
+    });
+
+    /**
+     * Write friend information to the user data
+     */
+
+    mongodb.userSchema.update({name: userName}, {friends: friendsList}, function(error, data){
+        mongodb.userSchema.find({name: userName}, function(error, data){
+            response.send(data[0].friends);
+        })
+    })
+}
+
+mongodb.userSchema.remove(function(){
+    
+})
+
 
 
 
 exports.infoDetect = infoDetect;
 exports.getSearchList = getSearchList;
 exports.checkUsername = checkUsername;
+exports.addFriend = addFriend;

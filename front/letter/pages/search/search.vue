@@ -13,7 +13,7 @@
 				<view>
 					{{item.name}}
 				</view>
-				<button>Add</button>
+				<button v-on:click="addFriend(item.name, userName)">Add</button>
 			</view>
 		</scroll-view>
 	</view>
@@ -76,6 +76,28 @@
 				uni.navigateBack({
 
 				})
+			},
+			
+			/**
+			 * Add as friend
+			 * */
+			
+			addFriend: function(name, userName){
+				uni.request({
+					url: 'http://127.0.0.1:3000/addFriend',
+					method: 'GET',
+					data:{
+						name: name,
+						userName: userName,
+						text: this.searchData,
+						friendList: JSON.stringify({friends: this.arrOfFriends})
+					},
+					success: (res) =>{
+						uni.navigateTo({
+							url: '../index/index?arr=' + JSON.stringify({target: res.data})
+						})
+					}
+				})
 			}
 		}
 	}
@@ -128,7 +150,7 @@
 	}
 
 	.searchItem button {
-		margin-left: 90rpx;
+		margin-left: 180rpx;
 		width: 160rpx;
 		height: 60rpx;
 		text-align: center;

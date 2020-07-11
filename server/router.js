@@ -32,8 +32,16 @@ router.post('/signup', function (request, response) {
     dbOperation.checkUsername(request.body.name, request.body.password, request.body.email, response);
 })
 
-router.get('/', function () {
+/**
+ * Handle requests to add friends
+ */
 
+router.get('/addFriend', function (request, response) {
+    var name = request.query.name;
+    var userName = request.query.userName;
+    var text = request.query.text;
+    var friendList = JSON.parse(request.query.friendList).friends;
+    dbOperation.addFriend(name, userName, friendList, response);
 })
 
 router.post('/', function () {
