@@ -73,28 +73,34 @@
 			 * */
 
 			back: function() {
-				uni.navigateBack({
 
+				var pages = getCurrentPages();
+				pages[pages.length - 2].userName = this.userName;
+				uni.navigateBack({
+				
 				})
 			},
-			
+
 			/**
 			 * Add as friend
 			 * */
-			
-			addFriend: function(name, userName){
+
+			addFriend: function(name, userName) {
 				uni.request({
 					url: 'http://127.0.0.1:3000/addFriend',
 					method: 'GET',
-					data:{
+					data: {
 						name: name,
 						userName: userName,
 						text: this.searchData,
-						friendList: JSON.stringify({friends: this.arrOfFriends})
+						friendList: JSON.stringify({
+							friends: this.arrOfFriends
+						})
 					},
-					success: (res) =>{
-						uni.navigateTo({
-							url: '../index/index?arr=' + JSON.stringify({target: res.data})
+					success: (res) => {
+						var array = JSON.stringify({target: res.data[0].friends});
+						uni.redirectTo({
+							url: '../index/index?arr=' + JSON.stringify({target: res.data}) + '&name=' + this.userName
 						})
 					}
 				})

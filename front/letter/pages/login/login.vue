@@ -63,6 +63,10 @@
 					data: {
 						loginMsg: formDate
 					},
+					
+					/**
+					 * Get user related data
+					 */
 
 					success: (res) => {
 						if (res.data == "Login Error") {

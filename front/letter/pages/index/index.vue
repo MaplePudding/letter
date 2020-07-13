@@ -17,7 +17,7 @@
 			<image src="../../static/index/logout.png" class="logout" v-on:click="showLogoutPage"></image>
 		</view>
 		<scroll-view>
-			<view class="item" v-on:click="toChatPage(item.content)" v-for="item in arrOfFriends">
+			<view class="item" v-on:click="toChatPage(item.content, item.name)" v-for="item in arrOfFriends">
 				<image src="../../static/logo.png"></image>
 				<view class="content">
 					<view class="itemName">{{item.name}}</view>
@@ -44,14 +44,27 @@
 			}
 		},
 
+		/**
+		 * Reacquire the data rendering page
+		 * */
+
+		onShow() {
+			this.refreshData();
+		},
+
 		onLoad(obj) {
 
 			/**
 			 * Get parameters
 			 * */
-
 			this.arrOfFriends = JSON.parse(obj.arr)["target"];
 			this.userName = obj.name;
+		},
+
+		onReady() {
+			this.connectWs();
+			this.socketOpen();
+			this.onSocketMsg();
 		},
 
 		methods: {
@@ -128,14 +141,55 @@
 			 * Navigate to chat page
 			 * */
 
-			toChatPage: function(content) {
+			toChatPage: function(content, friendName) {
 				var temp = {
 					content: content
 				}
 				var str = JSON.stringify(temp);
 				uni.navigateTo({
-					url: '../chat/chat?content=' + str + '&name=' + this.userName
+					url: '../chat/chat?content=' + str + '&name=' + this.userName + '&friendName=' + friendName
 				})
+			},
+
+			/**
+			 * Establish websocket communication
+			 * */
+
+			connectWs: function() {
+				uni.connectSocket({
+					url: 'ws://127.0.0.1:4000/soc?name=' + this.userName,
+				})
+			},
+
+			/**
+			 * Monitor websocket opening time
+			 * */
+
+			socketOpen: function() {
+				uni.onSocketOpen(function(res) {
+					console.log('WebSocket连接已打开！');
+				})
+				uni.onSocketError(function (res) {
+				  console.log(res)
+				});
+			},
+
+			/**
+			 * Listen for WebSocket to receive message events from the server
+			 * */
+
+			onSocketMsg: function() {
+				uni.onSocketMessage(function(res) {
+					console.log('收到服务器内容：' + res.data);
+				});
+			},
+
+			/**
+			 * Refresh data
+			 * */
+
+			refreshData: function(){
+				
 			}
 		}
 	}

@@ -9,11 +9,11 @@
 			<image src="../../static/chat/menu.png" class="menu" v-on:click="showMenu"></image>
 			<view class="delete" v-if="flag" v-on:click="del">Delete</view>
 		</view>
-		<scroll-view>
+		<scroll-view scroll-y="true">
 			<chat-item v-for="item in message" v-bind:key="item.key" v-bind:item="item" v-bind:name="userName"></chat-item>
 		</scroll-view>
 		<view class="input">
-			<input type="text" />
+			<input type="text" v-model="tempMessage" />
 			<button v-on:click="send">send</button>
 		</view>
 	</view>
@@ -26,6 +26,7 @@
 			return {
 				name: '',
 				flag: false,
+				friendName: '',
 				message: [{
 						msg: 'hello',
 						user: 'user_1'
@@ -36,7 +37,8 @@
 					}
 				],
 				userFLag: true,
-				userName: ''
+				userName: '',
+				tempMessage: ''
 			}
 		},
 
@@ -44,17 +46,27 @@
 			var temp = JSON.parse(obj.content)["content"];
 			this.message = temp;
 			this.userName = obj.name;
+			this.friendName = obj.friendName;
 		},
 
 		methods: {
 
 			/**
-			 * Back to index page
+			 * Back to index page and refresh the list
 			 * */
 
 			back: function() {
-				uni.navigateBack({
-
+				uni.request({
+					url: 'http://127.0.0.1:3000/newList',
+					data: {
+						userName: this.userName
+					},
+					success: (res) => {
+						var array = JSON.stringify({target: res.data[0].friends});
+						uni.redirectTo({
+							url: '../index/index?arr=' + array + '&name=' + res.data[0].name
+						})
+					}
 				})
 			},
 
@@ -75,11 +87,50 @@
 			},
 
 			/**
+			 * Clear message
+			 * */
+
+			clearMessage: function() {
+				this.tempMessage = '';
+			},
+
+			/**
 			 * Send message
 			 * */
 
+			sendMessageByWs: function(metaData) {
+				uni.sendSocketMessage({
+					data: JSON.stringify(metaData),
+					success: (res) => {
+						console.log(metaData)
+					},
+					fail: (res) => {
+						console.log(res)
+					}
+				});
+			},
+
 			send: function() {
 
+				var sendMessage = this.tempMessage;
+
+				var metaData = {
+					msg: sendMessage,
+					user: this.userName,
+					friendName: this.friendName
+				}
+
+				console.log(metaData)
+
+				this.message.push(metaData);
+
+				/**
+				 * Clear message
+				 * */
+
+				this.clearMessage();
+
+				this.sendMessageByWs(metaData);
 			}
 		},
 
@@ -158,7 +209,7 @@
 	}
 
 	scroll-view {
-		height: 900rpx
+		height: 900rpx;
 	}
 
 	scroll-view image {
