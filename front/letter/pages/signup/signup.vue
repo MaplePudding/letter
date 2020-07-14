@@ -5,7 +5,7 @@
 		<view id="signup">Sign Up</view>
 		<form class="form" v-on:submit="formSubmit">
 			<view class="name">
-				<input placeholder="name" v-model="name" />
+				<input placeholder="name" v-model="name" v-on:input="clearExists"/>
 				<view class="tips" v-if="checkName">Username can not be empty</view>
 				<view class="tips" v-if="exists">Username already exists</view>
 			</view>
@@ -69,7 +69,15 @@
 						}
 					}
 				})
-			}
+			},
+			
+			/**
+			 * 
+			 * */
+			 
+			 clearExists: function(){
+				 this.exists = false;
+			 }
 		},
 		computed: {
 

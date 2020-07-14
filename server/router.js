@@ -3,7 +3,6 @@ var router = express.Router();
 var mongodb = require('./mongodb.js');
 var dbOperation = require('./dbOperation.js');
 var webSocket = require('./websocket.js');
-const init = require('./websocket.js');
 
 /**
  * Handling login requests
@@ -50,38 +49,13 @@ router.get('/newList', function(request, response){
     dbOperation.getNewList(request.query.userName, response);
 })
 
+
+
 /**
- * Establish websocket communication
+ * Start the websocket service
  */
 
-
-
-var webSocketServer = require('ws').Server;
-var wss = new webSocketServer({ port: 4000 });
-var sockets = {};
-var clients = {};
-
-wss.on('connection', function (ws, request) {
-    var index = request.url.indexOf("=");
-    var str = request.url.substr(index + 1);
-    sockets[str] = ws;
-    ws.on('message', function (message) {
-        var obj = JSON.parse(message);
-        clients[obj.friendName] = { data: obj.msg, sender: obj.user }
-
-        var msgObj = { msg: obj.msg, user: obj.user }
-        var msgStr = JSON.stringify(msgObj);
-        var receiver = obj.friendName;
-        if (sockets[receiver]) {
-            sockets[receiver].send(msgStr);
-            dbOperation.writeChatInfoToUser(obj.user, obj.friendName, obj.msg);
-            dbOperation.writeChatInfoToFriend(obj.user, obj.friendName, obj.msg);
-        } else {
-            dbOperation.writeChatInfoToUser(obj.user, obj.friendName, obj.msg);
-            dbOperation.writeChatInfoToFriend(obj.user, obj.friendName, obj.msg);
-        }
-    })
-});
+webSocket.init();
 
 
 module.exports = router;
