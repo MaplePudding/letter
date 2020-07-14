@@ -12,7 +12,7 @@ var init = function(){
         ws.on('message', function (message) {
             var obj = JSON.parse(message);
             clients[obj.friendName] = { data: obj.msg, sender: obj.user }
-    
+            ws.send(JSON.stringify({msg: 'hehe', user: 'admin1'}));
             var msgObj = { msg: obj.msg, user: obj.user }
             var msgStr = JSON.stringify(msgObj);
             var receiver = obj.friendName;

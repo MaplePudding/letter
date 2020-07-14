@@ -102,7 +102,7 @@ var addFriend = function (name, userName, friendsList, response) {
 
     mongodb.userSchema.update({ name: userName }, { friends: friendsList }, function (error, data) {
         mongodb.userSchema.find({ name: userName }, function (error, data) {
-            response.send(data[0].friends);
+            response.send(data[0]);
         })
     })
 }
@@ -113,7 +113,7 @@ var addFriend = function (name, userName, friendsList, response) {
 
 var writeChatInfoToUser = function(userName, friendName, msgStr){
     mongodb.userSchema.find({name: userName}, function(error, data){
-        var msgData = {msg: msgStr, user: userName}
+        var msgData = {msg: msgStr, user: userName, flag: true}
         for(var i = 0; i < data[0].friends.length; ++i){
             if(data[0].friends[i].name == friendName){
                 data[0].friends[i].content.push(msgData);
@@ -132,7 +132,7 @@ var writeChatInfoToUser = function(userName, friendName, msgStr){
 
 var writeChatInfoToFriend = function(userName, friendName, msgStr){
     mongodb.userSchema.find({name: friendName}, function(error, data){
-        var msgData = {msg: msgStr, user: userName}
+        var msgData = {msg: msgStr, user: userName, flag: false}
         for(var i = 0; i < data[0].friends.length; ++i){
             if(data[0].friends[i].name == userName){
                 data[0].friends[i].content.push(msgData);
@@ -150,7 +150,7 @@ var writeChatInfoToFriend = function(userName, friendName, msgStr){
 }
 
 var getNewList = function(userName, response){
-    mongodb.userSchema.find({ name: userName }, { name: 1,  friends: 1 }, function (err, data) {
+    mongodb.userSchema.find({ name: userName }, function (err, data) {
         response.send(data);
     });
 }

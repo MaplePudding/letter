@@ -64,7 +64,6 @@
 		onReady() {
 			this.connectWs();
 			this.socketOpen();
-			this.onSocketMsg();
 		},
 
 		methods: {
@@ -113,9 +112,7 @@
 				}
 
 				uni.navigateTo({
-					url: '../search/search?name=' + this.userName + '&arr=' + JSON.stringify({
-						arr: arr
-					})
+					url: '../search/search?name=' + this.userName + '&arr=' + JSON.stringify({arr: arr}) + '&friendList=' + JSON.stringify(this.arrOfFriends)
 				})
 			},
 
@@ -178,9 +175,15 @@
 			 * Listen for WebSocket to receive message events from the server
 			 * */
 
-			onSocketMsg: function() {
-				uni.onSocketMessage(function(res) {
-					console.log('收到服务器内容：' + res.data);
+			onSocketMsg: () => {
+				uni.onSocketMessage((res) => {
+					var messageObj = JSON.parse(res.data);
+					var friend = messageObj.user;
+					for(var i = 0; i < this.arrOfFriends.length; ++i){
+						if(this.arrOfFriends[i].name == friend){
+							this.arrOfFriends[i].content.push(messageObj);
+						}
+					}
 				});
 			},
 

@@ -27,7 +27,8 @@
 				resData: '',
 				userName: '',
 				arrOfFriends: '',
-				searchList: ''
+				searchList: '',
+				firendList: '',
 			}
 		},
 
@@ -38,6 +39,7 @@
 		onLoad(obj) {
 			this.userName = obj.name;
 			this.arrOfFriends = JSON.parse(obj.arr)["arr"];
+			this.firendList = JSON.parse(obj.friendList);
 		},
 
 		methods: {
@@ -74,11 +76,13 @@
 
 			back: function() {
 
-				var pages = getCurrentPages();
+			/**
+			 * 				var pages = getCurrentPages();
 				pages[pages.length - 2].userName = this.userName;
-				uni.navigateBack({
-				
+				uni.reLaunch({
+					url: '../index/index'
 				})
+			 * */
 			},
 
 			/**
@@ -94,13 +98,13 @@
 						userName: userName,
 						text: this.searchData,
 						friendList: JSON.stringify({
-							friends: this.arrOfFriends
+							friends: this.firendList
 						})
 					},
 					success: (res) => {
-						var array = JSON.stringify({target: res.data[0].friends});
+						var array = JSON.stringify({target: res.data.friends});
 						uni.redirectTo({
-							url: '../index/index?arr=' + JSON.stringify({target: res.data}) + '&name=' + this.userName
+							url: '../index/index?arr=' + array + '&name=' + this.userName
 						})
 					}
 				})
