@@ -4,7 +4,7 @@
 		</view>
 		<view id="logoutView" v-if="logoutFlag">
 			<view class="logoutText">
-				Logout?
+				Log out?
 			</view>
 			<view class="logoutButtons">
 				<button v-on:click="logout">Yes</button>
@@ -17,13 +17,18 @@
 			<image src="../../static/index/logout.png" class="logout" v-on:click="showLogoutPage"></image>
 		</view>
 		<scroll-view>
-			<view class="item" v-on:click="toChatPage(item.content, item.name)" v-for="item in arrOfFriends">
+			<view class="item" v-on:click="toChatPage(item.content, item.name); updateNum(item.name)" v-for="item in arrOfFriends">
 				<image src="../../static/logo.png"></image>
 				<view class="content">
 					<view class="itemName">{{item.name}}</view>
 					<view class="itemMsg">{{item.content[item.content.length - 1].msg}}</view>
 				</view>
 				<view class="date">2019-11-1</view>
+			</view>
+			<view class="countContainer">
+				<view class="countItem" v-for="(value, key, index) in numbers">
+					<view class="count">{{value}}</view>
+				</view>
 			</view>
 		</scroll-view>
 		<view class="toolBar">
@@ -38,9 +43,10 @@
 		data() {
 			return {
 				title: 'Hello',
-				arrOfFriends: [],
+				arrOfFriends: '',
 				userName: '',
-				logoutFlag: false
+				logoutFlag: false,
+				numbers: ''
 			}
 		},
 
@@ -60,6 +66,7 @@
 			this.arrOfFriends = JSON.parse(obj.arr)["target"];
 			this.userName = obj.name;
 			this.onSocketMsg();
+			this.numbers = this.getNumbers(this.arrOfFriends);
 		},
 
 		onReady() {
@@ -113,7 +120,9 @@
 				}
 
 				uni.navigateTo({
-					url: '../search/search?name=' + this.userName + '&arr=' + JSON.stringify({arr: arr}) + '&friendList=' + JSON.stringify(this.arrOfFriends)
+					url: '../search/search?name=' + this.userName + '&arr=' + JSON.stringify({
+						arr: arr
+					}) + '&friendList=' + JSON.stringify(this.arrOfFriends)
 				})
 			},
 
@@ -167,8 +176,8 @@
 				uni.onSocketOpen(function(res) {
 					console.log('WebSocket连接已打开！');
 				})
-				uni.onSocketError(function (res) {
-				  console.log(res)
+				uni.onSocketError(function(res) {
+					console.log(res)
 				});
 			},
 
@@ -176,16 +185,17 @@
 			 * Listen for WebSocket to receive message events from the server
 			 * */
 
-			onSocketMsg: () => {
+			onSocketMsg: function() {
 				uni.onSocketMessage((res) => {
-					console.log(res.data);
 					var messageObj = JSON.parse(res.data);
 					var friend = messageObj.user;
-					for(var i = 0; i < this.arrOfFriends.length; ++i){
-						if(this.arrOfFriends[i].name == friend){
+					for (var i = 0; i < this.arrOfFriends.length; ++i) {
+						console.log(this.arrOfFriends[i].content);
+						if (this.arrOfFriends[i].name == friend) {
 							this.arrOfFriends[i].content.push(messageObj);
 						}
 					}
+					this.getNumbers();
 				});
 			},
 
@@ -193,8 +203,54 @@
 			 * Refresh data
 			 * */
 
-			refreshData: function(){
-				
+			refreshData: function() {
+
+			},
+
+			/**
+			 * Update the number of unread messages
+			 * */
+
+			updateNum: function(name) {
+				for (var i in this.arrOfFriends) {
+					if (this.arrOfFriends[i].name == name) {
+						for (var x in this.arrOfFriends[i].content) {
+							this.arrOfFriends[i].content[x].flag = true;
+						}
+					}
+				}
+
+				uni.request({
+					url: 'http://127.0.0.1:3000/updateNum',
+					data: {
+						userName: this.userName,
+						arrOfFriends: JSON.stringify(this.arrOfFriends),
+					},
+					success: (res) => {
+						console.log(res.data);
+						this.arrOfFriends = res.data
+					}
+				})
+			},
+
+			/**
+			 * Get a list of unread messages
+			 * */
+
+			getNumbers: function() {
+				var numObj = {};
+				var num = 0;
+				for (var i in this.arrOfFriends) {
+					for (var x in this.arrOfFriends[i].content) {
+						if (this.arrOfFriends[i].content[x].flag == false) {
+							++num;
+						}
+						console.log(this.arrOfFriends[i].content[x]);
+					}
+					numObj[this.arrOfFriends[i].name] = num;
+					num = 0;
+				}
+				return numObj;
 			}
 		}
 	}
@@ -306,5 +362,27 @@
 
 	#logoutView .logoutButtons button {
 		width: 200rpx;
+	}
+	
+	.countContainer{
+		position: absolute;
+		left: 100rpx;
+		top: 10rpx;
+		background: transparent;
+		z-index: 20;
+	}
+	
+	.countContainer .countItem{
+		margin-top: 80rpx;
+	}
+	
+	.countContainer .countItem .count{
+		color: white;
+		background: red;
+		height: 40rpx;
+		width: 40rpx;
+		text-align: center;
+		line-height: 40rpx;
+		border-radius: 50%;
 	}
 </style>

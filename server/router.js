@@ -49,6 +49,12 @@ router.get('/newList', function(request, response){
     dbOperation.getNewList(request.query.userName, response);
 })
 
+router.get('/updateNum', function(request, response){
+    var userName = request.query.userName;
+    var arrOfFriends = JSON.parse(request.query.arrOfFriends);
+    dbOperation.updateNum(userName, arrOfFriends, response);
+})
+
 
 
 /**

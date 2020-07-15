@@ -82,7 +82,7 @@ var writeUserInfo = function (name, password, email, response) {
 
 var addFriend = function (name, userName, friendsList, response) {
 
-    friendsList.push({ 'content': [{ 'msg': '', 'user': '' }], 'name': name });
+    friendsList.push({ 'content': [{ 'msg': '', 'user': '' , flag: true}], 'name': name });
 
     /**
      * Write user information into friend data
@@ -90,7 +90,7 @@ var addFriend = function (name, userName, friendsList, response) {
 
     mongodb.userSchema.find({ name: name }, function (error, data) {
         var OthFriendsList = data[0].friends;
-        OthFriendsList.push({ 'content': [{ 'msg': '', 'user': '' }], 'name': userName })
+        OthFriendsList.push({ 'content': [{ 'msg': '', 'user': '' , flag: true}], 'name': userName })
         mongodb.userSchema.update({ name: name }, { friends: OthFriendsList }, function (err, data) {
 
         })
@@ -144,15 +144,32 @@ var writeChatInfoToFriend = function(userName, friendName, msgStr){
          */
 
         mongodb.userSchema.update({name: friendName}, {friends: data[0].friends}, function(error, data){
-            console.log(data);
+    
         })
     })
 }
+
+/**
+ * Return a new friend list
+ */
 
 var getNewList = function(userName, response){
     mongodb.userSchema.find({ name: userName }, function (err, data) {
         response.send(data);
     });
+}
+
+/**
+ * Write the amount of unread information to the database
+ */
+
+var updateNum = function(userName, arrOfFriends, response){
+    mongodb.userSchema.update({name: userName}, {friends: arrOfFriends}, function(error, data){
+        mongodb.userSchema.find({name: userName}, function(error, data){
+            console.log(typeof arrOfFriends);
+            response.send(data[0].friends);
+        })
+    })
 }
 
 
@@ -170,3 +187,4 @@ exports.addFriend = addFriend;
 exports.writeChatInfoToUser = writeChatInfoToUser;
 exports.writeChatInfoToFriend = writeChatInfoToFriend;
 exports.getNewList = getNewList;
+exports.updateNum = updateNum;
