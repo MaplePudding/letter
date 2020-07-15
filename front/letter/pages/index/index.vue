@@ -59,6 +59,7 @@
 			 * */
 			this.arrOfFriends = JSON.parse(obj.arr)["target"];
 			this.userName = obj.name;
+			this.onSocketMsg();
 		},
 
 		onReady() {
@@ -177,6 +178,7 @@
 
 			onSocketMsg: () => {
 				uni.onSocketMessage((res) => {
+					console.log(res.data);
 					var messageObj = JSON.parse(res.data);
 					var friend = messageObj.user;
 					for(var i = 0; i < this.arrOfFriends.length; ++i){

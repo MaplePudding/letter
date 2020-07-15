@@ -75,14 +75,19 @@
 			 * */
 
 			back: function() {
-
-			/**
-			 * 				var pages = getCurrentPages();
-				pages[pages.length - 2].userName = this.userName;
-				uni.reLaunch({
-					url: '../index/index'
+				uni.request({
+					url: 'http://127.0.0.1:3000/newList',
+					method: 'GET',
+					data:{
+						userName: this.userName
+					},
+					success: (res) => {
+						var array = JSON.stringify({target: res.data[0].friends});
+						uni.redirectTo({
+							url: '../index/index?arr=' + array + '&name=' + this.userName
+						})
+					}
 				})
-			 * */
 			},
 
 			/**
